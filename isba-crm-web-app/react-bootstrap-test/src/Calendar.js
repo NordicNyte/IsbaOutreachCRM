@@ -1,7 +1,12 @@
-// // Import React and necessary dependencies
-// import React from 'react';
-// import { createTheme, ThemeProvider } from '@mui/material/styles';
-// import { StaticDatePicker } from '@mui/lab';
+import React from 'react'
+
+export const Calendar = () => (
+    <div style={{ textAlign: 'center', color: 'white', marginTop: '70px'  }}>
+        <h2 style={{ fontWeight: 'bold' , fontSize: '90px'}}>Calendar </h2>
+
+    </div>
+    
+);
 
 // // Define the custom theme function (if needed)
 // const Calendar = (theme) => {
@@ -42,13 +47,3 @@
 // // import { StaticDatePicker } from '@mui/lab';
 
 
-
-// // import React from 'react'
-
-// // export const Calendar = () => (
-// //     <div style={{ textAlign: 'center', color: 'white', marginTop: '70px'  }}>
-// //         <h2 style={{ fontWeight: 'bold' , fontSize: '90px'}}>Calendar </h2>
-
-// //     </div>
-    
-// // );
