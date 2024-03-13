@@ -38,7 +38,7 @@ export const Forms = () => {
         <h2>Forms</h2>
         <p>Please fill out the form to add information.</p>
       </header>
-
+     
       <div className="forms-container">
         <form className="outer-section-connection-grid" onSubmit={handleSubmit}>
           <div className='inner-section-connection-grid'>

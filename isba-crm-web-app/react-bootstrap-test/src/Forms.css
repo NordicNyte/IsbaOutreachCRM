@@ -1,23 +1,20 @@
-body {
+main {
+    text-align: center;
+    color: white;
     width: 100%;
     height: 100%;
-    margin: 0px;
-    padding: 0px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     background-image: url('https://d13b2ieg84qqce.cloudfront.net/a38dca15400c33a551571deac73e2f1969890901.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }
 
-main {
-    text-align: center;
-    color: white;
-    margin-top: 70px;
-}
-
 header h2 {
     font-weight: bold;
     font-size: 90px;
+    
 }
 
 .inner-section-connection-grid h3 {
