@@ -21,7 +21,6 @@ class App extends React.Component {
       <React.Fragment>
         <Router>
           <NavigationBar />
-          <Layout>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/connect" element={<Connect />} />
@@ -31,7 +30,6 @@ class App extends React.Component {
               <Route path="/popup" element={<Modalpopup></Modalpopup>}></Route>
               <Route path="*" element={<NoMatch />} />
             </Routes>
-          </Layout>
         </Router>
       </React.Fragment>
     );

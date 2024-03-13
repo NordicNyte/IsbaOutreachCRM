@@ -1,62 +1,99 @@
+// Forms.js
 import React, { useState } from 'react';
+import './Forms.css';
+import { addConnection } from './FormsDbService'; // Import the service function
 
 export const Forms = () => {
-  // State for storing the list of connections
-  const [connections, setConnections] = useState([]);
-  // State for storing the value of the input fields in the add form
-  const [newConnection, setNewConnection] = useState('');
-  // State for storing the value of the input fields in the remove form
-  const [connectionToRemove, setConnectionToRemove] = useState('');
+  // Individual states for each input field
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [notes, setNotes] = useState('');
 
-  // Function to handle adding a new connection
-  const handleAddConnection = () => {
-    if (newConnection.trim() !== '') {
-      setConnections([...connections, newConnection]);
-      setNewConnection(''); // Clear the input field after adding a connection
-    }
-  };
+  // Function to handle the form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  // Function to handle removing a connection
-  const handleRemoveConnection = () => {
-    if (connectionToRemove.trim() !== '') {
-      setConnections(connections.filter(connection => connection !== connectionToRemove));
-      setConnectionToRemove(''); // Clear the input field after removing a connection
-    }
+    // Construct a new connection object
+    const newConnectionData = {
+      firstName,
+      lastName,
+      email,
+      notes,
+    };
+
+    // Add the new connection to Firestore
+    await addConnection(newConnectionData);
+
+    // Clear form fields
+    setFirstName('');
+    setLastName('');
+    setEmail('');
+    setNotes('');
   };
 
   return (
-    <div style={{ textAlign: 'center', color: 'white', marginTop: '70px' }}>
-      <h2 style={{ fontWeight: 'bold', fontSize: '90px' }}>Forms </h2>
-      <p style={{ fontSize: '20px' }}>Please fill out a form to request to add or remove a connection.</p>
+    <main className="Forms-main">
+      <header>
+        <h2>Forms</h2>
+        <p>Please fill out the form to add information.</p>
+      </header>
 
-      {/* Form for adding a connection */}
-      <form onSubmit={(e) => { e.preventDefault(); handleAddConnection(); }}>
-        <input
-          type="text"
-          value={newConnection}
-          onChange={(e) => setNewConnection(e.target.value)}
-          placeholder="Enter new connection"
-        />
-        <button type="submit">Add</button>
-      </form>
+      <div className="forms-container">
+        <form className="outer-section-connection-grid" onSubmit={handleSubmit}>
+          <div className='inner-section-connection-grid'>
+            <h3>Add Connection Information</h3>
+            <div className="grid-container">
+              
+              <div>
+                <label htmlFor="first-name">First Name *</label>
+                <input
+                  id="first-name"
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  placeholder="Enter first name"
+                />
+              </div>
 
-      {/* Form for removing a connection */}
-      <form onSubmit={(e) => { e.preventDefault(); handleRemoveConnection(); }}>
-        <input
-          type="text"
-          value={connectionToRemove}
-          onChange={(e) => setConnectionToRemove(e.target.value)}
-          placeholder="Enter connection to remove"
-        />
-        <button type="submit">Remove</button>
-      </form>
+              <div>
+                <label htmlFor="last-name">Last Name *</label>
+                <input
+                  id="last-name"
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  placeholder="Enter last name"
+                />
+              </div>
 
-      {/* Display the list of connections */}
-      <ul>
-        {connections.map((connection, index) => (
-          <li key={index}>{connection}</li>
-        ))}
-      </ul>
-    </div>
+              <div>
+                <label htmlFor="email">Email *</label>
+                <input
+                  id="email"
+                  type="text"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter email"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="notes">Notes</label>
+                <input
+                  id="notes"
+                  type="text"
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  placeholder="Enter notes"
+                />
+              </div>
+
+            </div>
+            <button type="submit" className="submit-all">Submit All</button>
+          </div>
+        </form>
+      </div>
+    </main>
   );
 };
