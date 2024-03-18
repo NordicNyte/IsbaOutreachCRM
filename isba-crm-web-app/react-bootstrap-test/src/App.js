@@ -6,7 +6,7 @@ import { Home } from './Home';
 import { Connect } from './Connect';
 import { Inbox } from './Inbox';
 import { Calendar } from './Calendar';
-import { Forms } from './Forms';
+import Forms from './Forms';
 import { NoMatch } from './NoMatch';
 import { Layout } from './components/Layout';
 import { NavigationBar } from './components/NavigationBar';
