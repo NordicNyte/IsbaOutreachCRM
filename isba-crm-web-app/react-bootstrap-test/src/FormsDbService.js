@@ -1,5 +1,5 @@
 import { db } from "./FirebaseConfig";
-import { collection, addDoc, deleteDoc, doc } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 
 export const addConnection = (connectionData) => {
   const collectionRef = collection(db, 'connections');
@@ -12,13 +12,13 @@ export const addConnection = (connectionData) => {
     });
 };
 
-export const removeConnection = (connectionData) => {
-  const docRef = doc(db, 'connections', connectionData.id);
-  return deleteDoc(docRef)
+export const removeConnection = (removalRequestData) => {
+  const collectionRef = collection(db, 'removal_requests');
+  return addDoc(collectionRef, removalRequestData)
     .then(() => {
-      console.log('Connection removed successfully');
+      console.log('Removal request added successfully');
     })
     .catch((error) => {
-      console.error('Error removing connection: ', error);
+      console.error('Error submitting removal request: ', error);
     });
 };

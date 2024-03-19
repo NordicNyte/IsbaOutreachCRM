@@ -4,19 +4,18 @@ import './Forms.css';
 import { addConnection, removeConnection } from './FormsDbService';
 
 function Forms() {
-  const [addFormState, setAddFormState] = useState({
-    firstname: '',
-    lastname: '',
-    email: '',
-    notes: '',
-  });
 
-  const [removeFormState, setRemoveFormState] = useState({
+  const initialState = {
     firstname: '',
     lastname: '',
     email: '',
     notes: '',
-  });
+  };
+
+
+  const [addFormState, setAddFormState] = useState(initialState);
+  const [removeFormState, setRemoveFormState] = useState(initialState);
+  
 
   // Handle input changes for the add connection form
   const handleAddInputChange = (event) => {
@@ -40,17 +39,22 @@ function Forms() {
   const handleAddSubmit = (event) => {
     event.preventDefault();
     addConnection(addFormState)
-      .then(() => console.log('Connection added successfully'))
+      .then(() => {
+        console.log('Connection added successfully');
+        setAddFormState(initialState);
+      })
       .catch(error => console.error('Error adding connection:', error));
   };
 
   // Submit handler for removing a connection
   const handleRemoveSubmit = (event) => {
     event.preventDefault();
-    // Assuming you have an identifier to specify which connection to remove
     removeConnection(removeFormState)
-      .then(() => console.log('Connection removed successfully'))
-      .catch(error => console.error('Error removing connection:', error));
+      .then(() => {
+        console.log('Removal request submitted successfully');
+        setRemoveFormState(initialState); // Reset the remove form state
+      })
+      .catch(error => console.error('Error submitting removal request:', error));
   };
 
   // Render forms ensuring input names match state keys
