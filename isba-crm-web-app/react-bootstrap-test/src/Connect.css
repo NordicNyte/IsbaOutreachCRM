@@ -1,3 +1,83 @@
 body {
     background-image: url('https://www.som.com/wp-content/uploads/2022/11/218566_000_N108_large-1667621490-scaled.jpg');
 }
+
+
+/* Connect.css */
+
+.App {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-container {
+    margin-bottom: 20px;
+}
+
+.search-container input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.contacts {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.contacts th,
+.contacts td {
+    padding: 8px;
+    border: 1px solid #dddddd;
+    text-align: left;
+    background-color: white; /* Add this line to set white background */
+}
+
+.contacts th {
+    background-color: #f2f2f2;
+}
+
+.contacts td a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.contacts td a:hover {
+    text-decoration: underline;
+}
+
+button {
+    margin-top: 20px;
+}
+
+button a {
+    text-decoration: none;
+    color: white;
+}
+
+button a:hover {
+    text-decoration: none;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
