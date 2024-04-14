@@ -38,7 +38,6 @@ export const NavigationBar = () => {
           <Nav.Item><Nav.Link href="/inbox">Inbox</Nav.Link></Nav.Item>
           <Nav.Item><Nav.Link href="/calendar">Calendar</Nav.Link></Nav.Item>
           <Nav.Item><Nav.Link href="/forms">Forms</Nav.Link></Nav.Item>
-          <Nav.Item><Nav.Link href="/popup">Popup</Nav.Link></Nav.Item>
         </Nav>
       </Navbar.Collapse> 
     </Navbar>

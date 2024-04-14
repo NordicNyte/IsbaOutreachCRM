@@ -5,21 +5,28 @@ import './Modalpopup.css';
 
 
 const Modalpopup = () => {
-    const [open, openchange] = useState(false);
+    const [open, setOpen] = useState(false);
     const [industry, setIndustry] = useState('');
-    const [industryexpertise, setIndustryExpertise] = useState('');
-    const [affiliation, setAffiliation] = useState('');
-    const [skills, setSkills] = useState('');
-    const [helpWith, setHelpWith] = useState('');
+    const [industries, setIndustries] = useState([]); // State for storing the fetched industries
+    // Other states for industryExpertise, affiliation, etc.
 
-    const functionopenpopup = () => {
-        openchange(true);
-    }
+    // Function to open the popup
+    const handleOpenPopup = () => setOpen(true);
 
-    const closepopup = () => {
-        openchange(false);
-    }
+    // Function to close the popup
+    const handleClosePopup = () => setOpen(false);
 
+    // Fetch industries from backend when component mounts
+    useEffect(() => {
+        const fetchIndustries = async () => {
+            const response = await fetch('/industryTags'); // Ensure this URL matches your backend configuration
+            const industryTags = await response.json();
+            setIndustries(industryTags);
+        };
+
+        fetchIndustries();
+    }, []);
+    
     return (
         <div style={{ textAlign: 'center' }}>
             <h1 style={{ fontWeight: 'bold', fontSize: '2em'}}></h1>
