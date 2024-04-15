@@ -1,8 +1,32 @@
+.outer-wrapper {
+    background-color: rgba(0, 0, 0, 0.9); /* Black background with 90% opacity */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Box shadow for depth */
+    padding: 0 15px; /* 15px padding on the sides */
+    margin: 20px auto; /* Adjust as needed */
+}
+
+.inner-wrapper {
+    background-color: white; /* White background */
+    padding: 20px; /* Padding for content inside the inner wrapper */
+}
+
 .App {
     font-family: Arial, sans-serif;
-    max-width: 950px;
+    max-width: 965px; /* 15px wider than the inner wrapper */
     margin: 0 auto;
     padding: 20px;
+    background-color: rgba(0, 0, 0, 0.9); /* black background with 90% opacity */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Box shadow for depth */
+    color: white; /* Text color */
+}
+
+body {
+    background-image: url('https://www.som.com/wp-content/uploads/2022/11/218566_000_N108_large-1667621490-scaled.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 h1 {
@@ -116,7 +140,10 @@ button:hover {
     margin-top: 5px;
     padding: 5px;
     border: 1px solid #ccc;
-    background-color: #f9f9f9;
+}
+
+.skills-entry_expanded {
+    background-color: black;
 }
 
 .expand-button.expanded {
@@ -126,8 +153,13 @@ button:hover {
 
 .expand-button.expanded + .skills-entry {
     display: block;
+
 }
 
 .sorts button {
     margin: 1px;
 }
+.contacts th {
+    color: black; /* Change text color to black */
+}
+
