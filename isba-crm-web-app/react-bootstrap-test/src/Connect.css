@@ -1,13 +1,6 @@
-body {
-    background-image: url('https://www.som.com/wp-content/uploads/2022/11/218566_000_N108_large-1667621490-scaled.jpg');
-}
-
-
-/* Connect.css */
-
 .App {
     font-family: Arial, sans-serif;
-    max-width: 800px;
+    max-width: 950px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -40,7 +33,6 @@ h1 {
     padding: 8px;
     border: 1px solid #dddddd;
     text-align: left;
-    background-color: white; /* Add this line to set white background */
 }
 
 .contacts th {
@@ -58,18 +50,6 @@ h1 {
 
 button {
     margin-top: 20px;
-}
-
-button a {
-    text-decoration: none;
-    color: white;
-}
-
-button a:hover {
-    text-decoration: none;
-}
-
-button {
     background-color: #007bff;
     color: white;
     padding: 10px 20px;
@@ -80,4 +60,74 @@ button {
 
 button:hover {
     background-color: #0056b3;
+}
+
+.skills-container {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.skill-label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.skill-label input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.filters-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.filters {
+    width: 40%;
+}
+
+.sorts {
+    width: 40%;
+    padding: 5px;
+}
+
+.skills-dropdown {
+    width: 100%;
+    height: auto; /* Setting initial height to auto */
+    max-height: 150px; /* Setting maximum height */
+    overflow-y: hidden; /* Hiding overflow */
+    transition: max-height 0.5s ease; /* Adding transition effect */
+}
+.expanded {
+    max-height: none; /* Setting maximum height to none for expanded state */
+}
+
+.expand-button {
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+/* Additions to existing CSS */
+
+.skills-entry {
+    display: none;
+    margin-top: 5px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+.expand-button.expanded {
+    background-color: #007bff;
+    color: white;
+}
+
+.expand-button.expanded + .skills-entry {
+    display: block;
+}
+
+.sorts button {
+    margin: 1px;
 }
