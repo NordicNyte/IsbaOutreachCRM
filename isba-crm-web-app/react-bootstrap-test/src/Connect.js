@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Connect.css'; // Import CSS file for styling
+import { Link } from 'react-router-dom';
+import './Connect.css';
 
 const Connect = () => {
     const [contacts, setContacts] = useState([]);
@@ -9,82 +10,64 @@ const Connect = () => {
     const [skills, setSkills] = useState([]);
     const [sortColumn, setSortColumn] = useState('');
     const [sortOrder, setSortOrder] = useState('asc');
-    const [expandedRows, setExpandedRows] = useState({}); // State to track expanded rows
+    const [expandedRows, setExpandedRows] = useState({});
 
     useEffect(() => {
-        const fetchAllContacts = async () => {
-            try {
-                const res = await axios.get("http://localhost:8800/ContactMaster");
-                const formattedContacts = res.data.map(contact => ({
-                    ...contact,
-                    skill: contact.skill ? contact.skill.split(',').map(skill => skill.trim()) : []
-                }));
-                setContacts(formattedContacts);
-                // Initialize expandedRows state for each contact ID
-                const initialExpandedRows = {};
-                formattedContacts.forEach(contact => {
-                    initialExpandedRows[contact.ContactID] = contact.skill.length > 0 ? false : true;
-                });
-                setExpandedRows(initialExpandedRows);
-            } catch (err) {
-                console.error("Error fetching contacts:", err);
-            }
-        };
-
-        const fetchAllSkills = async () => {
-            try {
-                const res = await axios.get("http://localhost:8800/skills");
-                setSkills(res.data);
-            } catch (err) {
-                console.error("Error fetching skills:", err);
-            }
-        };
-
+        console.log("Fetching all contacts and skills...");
         fetchAllContacts();
         fetchAllSkills();
     }, []);
 
-    const handleSkillChange = (e) => {
-        const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
-        setSelectedSkills(selectedOptions);
-    };
-
-    const handleSort = (column) => {
-        if (sortColumn === column) {
-            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-        } else {
-            setSortColumn(column);
-            setSortOrder('asc');
+    const fetchAllContacts = async () => {
+        try {
+            const res = await axios.get("http://localhost:8800/ContactMaster");
+            console.log("Contacts fetched successfully", res.data);
+            const formattedContacts = res.data.map(contact => ({
+                ...contact,
+                skill: contact.skill ? contact.skill.split(',').map(skill => skill.trim()) : []
+            }));
+            setContacts(formattedContacts);
+            const initialExpandedRows = {};
+            formattedContacts.forEach(contact => {
+                initialExpandedRows[contact.ContactID] = false;
+            });
+            setExpandedRows(initialExpandedRows);
+        } catch (err) {
+            console.error("Error fetching contacts:", err);
         }
     };
 
+    const fetchAllSkills = async () => {
+        try {
+            const res = await axios.get("http://localhost:8800/skills");
+            console.log("Skills fetched successfully", res.data);
+            setSkills(res.data.map(skill => skill.SkillName)); // Assuming each skill object has a 'SkillName' property
+        } catch (err) {
+            console.error("Error fetching skills:", err);
+        }
+    };
+
+    const handleSkillChange = (e) => {
+        const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
+        setSelectedSkills(selectedOptions);
+        console.log("Skills selected:", selectedOptions);
+    };
+
+    const handleSort = (column) => {
+        console.log(`Sorting by ${column}, current order ${sortOrder}`);
+        setSortColumn(column);
+        setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    };
+
     const toggleSkillsExpand = (contactID) => {
+        console.log(`Toggling expansion for ContactID ${contactID}`);
         setExpandedRows(prevState => ({
             ...prevState,
             [contactID]: !prevState[contactID]
         }));
     };
 
-    const sortedContacts = contacts.sort((a, b) => {
-        if (sortColumn === 'First') {
-            return sortOrder === 'asc' ? a.First.localeCompare(b.First) : b.First.localeCompare(a.First);
-        } else if (sortColumn === 'Last') {
-            return sortOrder === 'asc' ? a.Last.localeCompare(b.Last) : b.Last.localeCompare(a.Last);
-        } else if (sortColumn === 'ContactID') {
-            return sortOrder === 'asc' ? a.ContactID - b.ContactID : b.ContactID - a.ContactID;
-        }
-        return 0;
-    });
-
-    const filteredContacts = sortedContacts.filter(contact =>
-        (contact.First && contact.First.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (contact.Last && contact.Last.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (contact.LinkedInUrl && contact.LinkedInUrl.toLowerCase().includes(searchTerm.toLowerCase()))
-    ).filter(contact => {
-        if (selectedSkills.length === 0) return true;
-        return contact.skill && contact.skill.some(skill => selectedSkills.includes(skill));
-    });
-
+    console.log("Rendering contacts, current sort column:", sortColumn);
     return (
         <div className="App">
             <h1>LMU ISBA Alumni and Contact Data</h1>
@@ -92,35 +75,25 @@ const Connect = () => {
                 type="text"
                 placeholder="Search..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => {
+                    console.log("Search term updated:", e.target.value);
+                    setSearchTerm(e.target.value);
+                }}
             />
             <div className="filters-container">
                 <div className="filters">
                     <h2>Filter by Skills</h2>
-                    <select
-                        multiple
-                        size="5"
-                        onChange={handleSkillChange}
-                        className="skills-dropdown"
-                    >
-                        {skills.map(skill => (
-                            <option key={skill} value={skill}>
-                                {skill}
-                            </option>
+                    <select multiple size="5" onChange={handleSkillChange} className="skills-dropdown">
+                        {skills.map((skill, index) => (
+                            <option key={index} value={skill}>{skill}</option>
                         ))}
                     </select>
                 </div>
                 <div className="sorts">
                     <h2>Sort</h2>
-                    <button onClick={() => handleSort('First')}>
-                        Sort by First Name {sortColumn === 'First' && sortOrder === 'asc' ? '▲' : '▼'}
-                    </button>
-                    <button onClick={() => handleSort('Last')}>
-                        Sort by Last Name {sortColumn === 'Last' && sortOrder === 'asc' ? '▲' : '▼'}
-                    </button>
-                    <button onClick={() => handleSort('ContactID')}>
-                        Sort by ContactID {sortColumn === 'ContactID' && sortOrder === 'asc' ? '▲' : '▼'}
-                    </button>
+                    <button onClick={() => handleSort('First')}>Sort by First Name</button>
+                    <button onClick={() => handleSort('Last')}>Sort by Last Name</button>
+                    <button onClick={() => handleSort('ContactID')}>Sort by ContactID</button>
                 </div>
             </div>
             <table className="contacts">
@@ -134,26 +107,27 @@ const Connect = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredContacts.map(contact => (
+                    {contacts.map(contact => (
                         <tr key={contact.ContactID}>
                             <td>{contact.ContactID}</td>
-                            <td>{contact.First}</td>
+                            <td><Link to={`/contact/${contact.ContactID}`}>{contact.First}</Link></td>
                             <td>{contact.Last}</td>
-                            <td><a href={contact.LinkedInUrl} target="_blank" rel="noopener noreferrer">{contact.LinkedInUrl}</a></td>
                             <td>
-                                {contact.skill.length > 0 &&
+                                <a href={contact.LinkedInUrl} target="_blank" rel="noopener noreferrer">
+                                    {contact.LinkedInUrl}
+                                </a>
+                            </td>
+                            <td>
+                                {contact.skill.length > 0 && (
                                     <>
-                                        <button
-                                            className={`expand-button ${expandedRows[contact.ContactID] ? 'expanded' : ''}`}
-                                            onClick={() => toggleSkillsExpand(contact.ContactID)}
-                                        >
+                                        <button onClick={() => toggleSkillsExpand(contact.ContactID)}>
                                             {expandedRows[contact.ContactID] ? '-' : '+'}
                                         </button>
-                                        <div className={`skills-entry ${expandedRows[contact.ContactID] ? 'expanded' : ''}`}>
-                                            {contact.skill.join(', ')}
-                                        </div>
+                                        {expandedRows[contact.ContactID] && (
+                                            <div>{contact.skill.join(', ')}</div>
+                                        )}
                                     </>
-                                }
+                                )}
                             </td>
                         </tr>
                     ))}

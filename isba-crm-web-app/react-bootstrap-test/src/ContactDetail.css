@@ -1,0 +1,91 @@
+.outer-wrapper {
+    background-color: rgba(0, 0, 0, 0.9); /* Black background with 90% opacity */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Box shadow for depth */
+    padding: 20px; /* Padding around content */
+    margin: 20px auto; /* Centering in the viewport */
+    max-width: 965px; /* Maximum width */
+    color: white; /* White text color */
+}
+
+.inner-wrapper {
+    background-color: white; /* White background for content */
+    padding: 20px; /* Padding inside the inner wrapper */
+    color: black; /* Black text for readability */
+    border-radius: 8px; /* Rounded corners for inner wrapper */
+}
+
+h1 {
+    text-align: center; /* Centering the title */
+    margin-bottom: 20px; /* Space below the header */
+}
+
+.detail-group {
+    margin-bottom: 15px; /* Space between detail groups */
+}
+
+.detail-label {
+    font-weight: bold; /* Making labels bold */
+    margin-bottom: 5px; /* Space below each label */
+}
+
+.detail-content {
+    padding-left: 20px; /* Indenting content */
+}
+
+.skills-container {
+    border: 1px solid #ccc; /* Border around skills container */
+    padding: 10px; /* Padding inside skills container */
+    margin-top: 10px; /* Space above skills container */
+    background-color: #f2f2f2; /* Light grey background */
+}
+
+.skills-list {
+    list-style: none; /* Removing bullet points */
+    padding: 0; /* Removing default padding */
+    margin: 0; /* Removing default margin */
+}
+
+.skills-list li {
+    margin-bottom: 5px; /* Space between skills */
+}
+
+button {
+    background-color: #007bff; /* Bootstrap blue for buttons */
+    color: white; /* White text on buttons */
+    padding: 10px 15px; /* Padding inside buttons */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners for buttons */
+    cursor: pointer; /* Pointer cursor on hover */
+    margin-top: 20px; /* Space above the button */
+    display: block; /* Ensuring the button is a block element */
+    width: 100%; /* Full width button */
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Styling for when skills are expanded */
+.expanded .skills-container {
+    background-color: #e9ecef; /* Light gray background when expanded */
+}
+
+/* Additional styles from forms.css for visual coherence */
+form {
+    margin-top: 20px; /* Space above the form */
+}
+
+input[type="text"], input[type="email"], select {
+    width: calc(100% - 40px); /* Full width minus padding */
+    padding: 10px; /* Padding inside inputs */
+    margin-bottom: 10px; /* Space below inputs */
+    border-radius: 4px; /* Rounded corners for inputs */
+    border: 1px solid #ccc; /* Light grey border */
+    background-color: #fff; /* White background */
+}
+
+input[type="submit"] {
+    background-color: #28a745; /* Green background */
+    border-color: #28a745; /* Green border */
+}
