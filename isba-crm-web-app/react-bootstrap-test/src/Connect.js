@@ -4,6 +4,14 @@ import { Link } from 'react-router-dom';
 import './Connect.css';
 
 const Connect = () => {
+    // Define the state variables for the component:
+    // `contacts` stores the array of contact details fetched from the backend.
+    // `searchTerm` holds the current value of the search input field for filtering contacts.
+    // `selectedSkills` stores the list of skills selected in the filter dropdown.
+    // `skills` contains all possible skills fetched from the backend to populate the filter dropdown.
+    // `sortColumn` identifies the column by which the contacts list is sorted.
+    // `sortOrder` specifies the direction of sorting, ascending or descending.
+    // `expandedRows` tracks which contact rows have their skills information expanded.
     const [contacts, setContacts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedSkills, setSelectedSkills] = useState([]);
@@ -12,21 +20,26 @@ const Connect = () => {
     const [sortOrder, setSortOrder] = useState('asc');
     const [expandedRows, setExpandedRows] = useState({});
 
+    // UseEffect hook to fetch initial data on component mount.
     useEffect(() => {
         console.log("Fetching all contacts and skills...");
         fetchAllContacts();
         fetchAllSkills();
     }, []);
 
+    // Asynchronously fetches contacts from the backend and handles the response.
     const fetchAllContacts = async () => {
         try {
             const res = await axios.get("http://localhost:8800/ContactMaster");
             console.log("Contacts fetched successfully", res.data);
             const formattedContacts = res.data.map(contact => ({
                 ...contact,
+                // Splitting the skills string into an array of strings, trimming whitespace.
                 skill: contact.skill ? contact.skill.split(',').map(skill => skill.trim()) : []
             }));
             setContacts(formattedContacts);
+
+            // Initialize the expansion state for each contact to false (all collapsed).
             const initialExpandedRows = {};
             formattedContacts.forEach(contact => {
                 initialExpandedRows[contact.ContactID] = false;
@@ -37,6 +50,7 @@ const Connect = () => {
         }
     };
 
+    // Asynchronously fetches skills from the backend and updates the state.
     const fetchAllSkills = async () => {
         try {
             const res = await axios.get("http://localhost:8800/skills");
@@ -47,18 +61,21 @@ const Connect = () => {
         }
     };
 
+    // Handles selection changes in the skills dropdown, updates the state, and logs the change.
     const handleSkillChange = (e) => {
         const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
         setSelectedSkills(selectedOptions);
         console.log("Skills selected:", selectedOptions);
     };
 
+    // Handles sorting of the contacts table based on the column header clicked.
     const handleSort = (column) => {
         console.log(`Sorting by ${column}, current order ${sortOrder}`);
         setSortColumn(column);
         setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
     };
 
+    // Toggles the expansion state for the skills information of a contact, logs the action.
     const toggleSkillsExpand = (contactID) => {
         console.log(`Toggling expansion for ContactID ${contactID}`);
         setExpandedRows(prevState => ({
@@ -67,7 +84,9 @@ const Connect = () => {
         }));
     };
 
+    // Log the current state each time the component re-renders.
     console.log("Rendering contacts, current sort column:", sortColumn);
+
     return (
         <div className="App">
             <h1>LMU ISBA Alumni and Contact Data</h1>
