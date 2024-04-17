@@ -1,15 +1,16 @@
-import React, { Component, useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './Home';
-import Connect from './Connect';
-import ContactDetail from './ContactDetail';
-import { Inbox } from './Inbox';
-import { Calendar } from './Calendar';
-import Forms from './Forms';
-import { NoMatch } from './NoMatch';
-import { NavigationBar } from './components/NavigationBar';
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { Component, useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./Home";
+import Connect from "./Connect";
+import ContactDetail from "./ContactDetail";
+import { Inbox } from "./Inbox";
+import { Calendar } from "./Calendar";
+import Forms from "./Forms";
+import { NoMatch } from "./NoMatch";
+import { NavigationBar } from "./components/NavigationBar";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { SignIn, SignOut, useAuthentication } from "./services/authService.js";
 
 // ErrorBoundary component to catch and display errors gracefully
 class ErrorBoundary extends Component {
@@ -35,7 +36,9 @@ class ErrorBoundary extends Component {
   render() {
     if (this.state.hasError) {
       // Fallback UI when error is caught
-      return <h1>Something went wrong. Check the console for more information.</h1>;
+      return (
+        <h1>Something went wrong. Check the console for more information.</h1>
+      );
     }
     // Render children if there's no error
     return this.props.children;
@@ -45,6 +48,7 @@ class ErrorBoundary extends Component {
 function App() {
   // State to track online status
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const user = useAuthentication();
 
   useEffect(() => {
     // Function to update online status
@@ -58,18 +62,23 @@ function App() {
     };
 
     // Event listeners for online and offline events
-    window.addEventListener('online', handleConnectionChange);
-    window.addEventListener('offline', handleConnectionChange);
+    window.addEventListener("online", handleConnectionChange);
+    window.addEventListener("offline", handleConnectionChange);
 
     // Cleanup function to remove event listeners
     return () => {
-      window.removeEventListener('online', handleConnectionChange);
-      window.removeEventListener('offline', handleConnectionChange);
+      window.removeEventListener("online", handleConnectionChange);
+      window.removeEventListener("offline", handleConnectionChange);
     };
   }, []);
 
   return (
     <React.Fragment>
+      <div className="login">
+        <span />
+        {!user ? <SignIn /> : <SignOut />}
+      </div>
+
       <Router>
         <NavigationBar />
         <ErrorBoundary>
@@ -85,7 +94,12 @@ function App() {
         </ErrorBoundary>
       </Router>
       {/* Display a warning when the user is offline */}
-      {!isOnline && <div className="network-warning">Your connection appears to be offline. Some features may not be available.</div>}
+      {!isOnline && (
+        <div className="network-warning">
+          Your connection appears to be offline. Some features may not be
+          available.
+        </div>
+      )}
     </React.Fragment>
   );
 }
