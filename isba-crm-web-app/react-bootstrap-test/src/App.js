@@ -74,11 +74,7 @@ function App() {
 
   return (
     <React.Fragment>
-      <div className="login">
-        <span />
-        {!user ? <SignIn /> : <SignOut />}
-      </div>
-
+      {!user ? <SignIn /> : <SignOut />}
       <Router>
         <NavigationBar />
         <ErrorBoundary>
