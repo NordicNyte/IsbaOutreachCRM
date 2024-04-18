@@ -8,8 +8,7 @@ const Connect = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedSkills, setSelectedSkills] = useState([]);
     const [skills, setSkills] = useState([]);
-    const [sortColumn, setSortColumn] = useState('');
-    const [sortOrder, setSortOrder] = useState('asc');
+    const [sorts, setSorts] = useState({});
     const [expandedRows, setExpandedRows] = useState({});
 
     useEffect(() => {
@@ -25,7 +24,6 @@ const Connect = () => {
                 skill: contact.skill ? contact.skill.split(',').map(skill => skill.trim()) : []
             }));
             setContacts(formattedContacts);
-
             const initialExpandedRows = {};
             formattedContacts.forEach(contact => {
                 initialExpandedRows[contact.ContactID] = false;
@@ -51,8 +49,11 @@ const Connect = () => {
     };
 
     const handleSort = (column) => {
-        setSortColumn(column);
-        setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+        const newOrder = sorts[column] === 'asc' ? 'desc' : 'asc';
+        setSorts(prevSorts => ({
+            ...prevSorts,
+            [column]: newOrder
+        }));
     };
 
     const toggleSkillsExpand = (contactID) => {
@@ -63,27 +64,28 @@ const Connect = () => {
     };
 
     const getFilteredContacts = () => {
-        const filtered = contacts.filter(contact => {
+        let result = contacts.filter(contact => {
             const searchTermMatch =
                 contact.First.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 contact.Last.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 contact.LinkedInUrl.toLowerCase().includes(searchTerm.toLowerCase());
-
             const skillsMatch = selectedSkills.length === 0 ||
                 selectedSkills.every(selectedSkill => contact.skill.includes(selectedSkill));
-
             return searchTermMatch && skillsMatch;
         });
 
-        return filtered.sort((a, b) => {
-            if (a[sortColumn] < b[sortColumn]) {
-                return sortOrder === 'asc' ? -1 : 1;
-            }
-            if (a[sortColumn] > b[sortColumn]) {
-                return sortOrder === 'asc' ? 1 : -1;
-            }
-            return 0;
+        Object.keys(sorts).forEach(sortColumn => {
+            result = result.sort((a, b) => {
+                if (a[sortColumn] < b[sortColumn]) {
+                    return sorts[sortColumn] === 'asc' ? -1 : 1;
+                }
+                if (a[sortColumn] > b[sortColumn]) {
+                    return sorts[sortColumn] === 'asc' ? 1 : -1;
+                }
+                return 0;
+            });
         });
+        return result;
     };
 
     const filteredContacts = getFilteredContacts();
@@ -108,9 +110,15 @@ const Connect = () => {
                 </div>
                 <div className="sorts">
                     <h2>Sort</h2>
-                    <button onClick={() => handleSort('First')}>Sort by First Name</button>
-                    <button onClick={() => handleSort('Last')}>Sort by Last Name</button>
-                    <button onClick={() => handleSort('ContactID')}>Sort by ContactID</button>
+                    <button className={sorts['First'] ? 'active' : ''} onClick={() => handleSort('First')}>
+                        Sort by First Name
+                    </button>
+                    <button className={sorts['Last'] ? 'active' : ''} onClick={() => handleSort('Last')}>
+                        Sort by Last Name
+                    </button>
+                    <button className={sorts['ContactID'] ? 'active' : ''} onClick={() => handleSort('ContactID')}>
+                        Sort by ContactID
+                    </button>
                 </div>
             </div>
             <table className="contacts">

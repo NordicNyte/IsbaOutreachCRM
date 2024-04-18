@@ -162,4 +162,8 @@ button:hover {
 .contacts th {
     color: black; /* Change text color to black */
 }
+button.active {
+    background-color: #0056b3; /* Blue color when active */
+    color: white;
+}
 
