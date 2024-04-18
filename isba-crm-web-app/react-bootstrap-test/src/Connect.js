@@ -49,11 +49,29 @@ const Connect = () => {
     };
 
     const handleSort = (column) => {
-        const newOrder = sorts[column] === 'asc' ? 'desc' : 'asc';
-        setSorts(prevSorts => ({
-            ...prevSorts,
-            [column]: newOrder
-        }));
+        setSorts(prevSorts => {
+            const currentOrder = prevSorts[column] || 'off';  // Toggle logic
+            let newOrder;
+            switch (currentOrder) {
+                case 'off':
+                    newOrder = 'asc';
+                    break;
+                case 'asc':
+                    newOrder = 'desc';
+                    break;
+                case 'desc':
+                    newOrder = 'off';  // Reset to no sort
+                    break;
+                default:
+                    newOrder = 'off';
+            }
+            if (newOrder === 'off') {
+                const { [column]: value, ...otherSorts } = prevSorts;
+                return otherSorts;
+            } else {
+                return { ...prevSorts, [column]: newOrder };
+            }
+        });
     };
 
     const toggleSkillsExpand = (contactID) => {
