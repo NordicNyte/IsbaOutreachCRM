@@ -62,17 +62,31 @@ const Connect = () => {
         }));
     };
 
-    const filteredContacts = contacts.filter(contact => {
-        const searchTermMatch =
-            contact.First.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            contact.Last.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            contact.LinkedInUrl.toLowerCase().includes(searchTerm.toLowerCase());
+    const getFilteredContacts = () => {
+        const filtered = contacts.filter(contact => {
+            const searchTermMatch =
+                contact.First.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                contact.Last.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                contact.LinkedInUrl.toLowerCase().includes(searchTerm.toLowerCase());
 
-        const skillsMatch = selectedSkills.length === 0 ||
-            selectedSkills.every(selectedSkill => contact.skill.includes(selectedSkill));
+            const skillsMatch = selectedSkills.length === 0 ||
+                selectedSkills.every(selectedSkill => contact.skill.includes(selectedSkill));
 
-        return searchTermMatch && skillsMatch;
-    });
+            return searchTermMatch && skillsMatch;
+        });
+
+        return filtered.sort((a, b) => {
+            if (a[sortColumn] < b[sortColumn]) {
+                return sortOrder === 'asc' ? -1 : 1;
+            }
+            if (a[sortColumn] > b[sortColumn]) {
+                return sortOrder === 'asc' ? 1 : -1;
+            }
+            return 0;
+        });
+    };
+
+    const filteredContacts = getFilteredContacts();
 
     return (
         <div className="App">
