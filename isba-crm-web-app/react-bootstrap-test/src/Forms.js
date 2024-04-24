@@ -94,7 +94,7 @@ function Forms() {
               </div>
 
               <div>
-                <label htmlFor="email">Email *</label>
+                <label htmlFor="email">LinkedIn *</label>
                 <input
                   name="email"
                   type="text"
@@ -148,7 +148,7 @@ function Forms() {
               </div>
 
               <div>
-                <label htmlFor="remove-email">Email *</label>
+                <label htmlFor="remove-email">LinkedIn *</label>
                 <input
                   name="email"
                   type="text"
